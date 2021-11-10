@@ -1,0 +1,58 @@
+<!-- HEADER -->
+<br>
+<h3 class="text-end">Control Académico       </h3>
+<br>
+<button type="button" class="btn btn-outline-dark">Inicio</button>
+<button type="button" class="btn btn-outline-dark" (click)="agregarNota()" >Cursos</button>
+<br>
+<br><br>
+<div class="col-md-6">
+    <li class="list-group" *ngFor="let n of mis_notas">
+        <p (click)="verNota(n)" class="list-group-item" *ngIf="(calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5))>6.0" style="background-color:white; font-weight: bolder;" >{{n.titulo}}         promedio hasta ahora {{calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5)}}</p>
+        <p (click)="verNota(n)" class="list-group-item" *ngIf="(calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5))<=6.0 && (calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5))>=4.5" style="background-color:yellow; font-weight: bolder;" >{{n.titulo}}         promedio hasta ahora {{calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5)}}</p>
+        <p (click)="verNota(n)" class="list-group-item" *ngIf="(calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5))<4.5" style="background-color:lightcoral; font-weight: bolder;" >{{n.titulo}}         promedio hasta ahora {{calcPromedio(n.n1,n.p1,n.n2,n.p2,n.n3,n.p3,n.n4,n.p4,n.n5,n.p5)}}</p>
+    </li>
+</div>
+<!-- /HEADER -->
+<!-- BODY -->
+<br><hr><br>
+<div class="col-md-6" *ngIf="show_form">
+    <h2 *ngIf="show_form && editable">Editar Nota</h2>
+    <h2 *ngIf="show_form && !editable">Nueva Nota</h2>
+    <input class="form-control" type="text" placeholder="Titulo del curso" [(ngModel)]="nota.titulo" required> 
+    <div *ngIf="!nota.titulo">Porfavor Ingrese un titulo.</div><br>
+    <input class="form-control" type="number" min="1.0" max="7.0" placeholder="Nota 1" [(ngModel)]="nota.n1" required> 
+    <div *ngIf="!nota.n1">Porfavor Ingrese Nota 1 (Minimo: 1.0 / Maximo: 7.0)</div><br>
+    <input class="form-control" type="number" min="0.05" max="0.8" placeholder="Ponderacion 1 (0.%) Ej: 15% = 0.15" [(ngModel)]="nota.p1" required>
+    <div *ngIf="!nota.p1">Porfavor Ingrese Ponderacion 1 (Entre 0.05 y 0.8)</div> <br>
+    <input class="form-control" type="number" min="1.0" max="7.0" placeholder="Nota 2" [(ngModel)]="nota.n2" required> 
+    <div *ngIf="!nota.n2">Porfavor Ingrese Nota 2 (Minimo: 1.0 / Maximo: 7.0)</div><br>
+    <input class="form-control" type="number" min="0.05" max="0.8"  placeholder="Ponderacion 2 (0.%) Ej: 15% = 0.15" [(ngModel)]="nota.p2" required>
+    <div *ngIf="!nota.p2">Porfavor Ingrese un Ponderacion 2 (Entre 0.05 y 0.8)</div> <br> 
+    <input class="form-control" type="number" min="1.0" max="7.0" placeholder="Nota 3" [(ngModel)]="nota.n3" required> 
+    <div *ngIf="!nota.n3">Porfavor Ingrese un Nota 3 (Minimo: 1.0 / Maximo: 7.0)</div><br>
+    <input class="form-control" type="number" min="0.05" max="0.8"  placeholder="Ponderacion 3 (0.%) Ej: 15% = 0.15" [(ngModel)]="nota.p3" required>
+    <div *ngIf="!nota.p3">Porfavor Ingrese un Ponderacion 3 (Entre 0.05 y 0.8)</div> <br> 
+    <input class="form-control" type="number" min="1.0" max="7.0" placeholder="Nota 4" [(ngModel)]="nota.n4" required>
+    <div *ngIf="!nota.n4">Porfavor Ingrese un Nota 4 (Minimo: 1.0 / Maximo: 7.0)</div> <br> 
+    <input class="form-control" type="number" min="0.05" max="0.8"  placeholder="Ponderacion 4 (0.%) Ej: 15% = 0.15" [(ngModel)]="nota.p4" required>
+    <div *ngIf="!nota.p4">Porfavor Ingrese un Ponderacion 4 (Entre 0.05 y 0.8)</div> <br> 
+    <input class="form-control" type="number" min="1.0" max="6.0" placeholder="Nota 5" [(ngModel)]="nota.n5" required>
+    <div *ngIf="!nota.n5">Porfavor Ingrese un Nota 5 (Minimo: 1.0 / Maximo: 7.0)</div> <br> 
+    <input class="form-control" type="number" min="0.05" max="0.8"  placeholder="Ponderacion 5 (0.%) Ej: 15% = 0.15" [(ngModel)]="nota.p5" required>
+    <div *ngIf="!nota.p5">Porfavor Ingrese un Ponderacion 5 (Entre 0.05 y 0.8)</div> <br>
+    <div class="row">
+        <div class="col-md-6">
+            <a class="btn btn-danger btn-block" (click)="cancelNota(nota)" *ngIf="!editable">Cancelar</a>
+        </div>
+        <div class="col-md-6">
+            <h6>El boton guardar solo aparecera una vez este correcto el input.</h6>
+            <h6 *ngIf="(nota.p1+nota.p2+nota.p3+nota.p4+nota.p5)!=1">La suma de las ponderaciones no debe superar a 1.0</h6>
+            <a class="btn btn-primary btn-block" (click)="crearNota()" *ngIf="nota.titulo && nota.n1 && nota.p1 && nota.n2 && nota.p2 && nota.n3 && nota.p3 && nota.n4 && nota.p4 && nota.n5 && nota.p5 && (nota.p1+nota.p2+nota.p3+nota.p4+nota.p5)===1 && nota.n1>=1 && nota.n1<=7 && nota.n2>=1 && nota.n2<=7 && nota.n3>=1 && nota.n3<=7 && nota.n4>=1 && nota.n4<=7 && nota.n5>=1 && nota.n5<=7" >Guardar Nota</a>
+        </div>
+    </div>
+    <br>
+</div>
+<!-- /BODY -->
+
+
